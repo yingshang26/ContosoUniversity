@@ -27,7 +27,15 @@ namespace ContosoUniversity.Pages.Students
                 return NotFound();
             }
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            //Include 和 ThenInclude 方法使上下文加载 Student.Enrollments 导航属性，
+            //并在每个注册中加载 Enrollment.Course 导航属性。 这些方法将在与数据读取相关的教程中进行详细介绍。
+            Student = await _context.Students
+                .Include(s => s.Enrollments)
+                .ThenInclude(e => e.Course)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            //Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
