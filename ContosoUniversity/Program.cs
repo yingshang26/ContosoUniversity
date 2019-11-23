@@ -32,7 +32,7 @@ namespace ContosoUniversity
         //EnsureCreated创建空数据库
 
         //EnsureCreated 启用以下工作流来处理数据模型更改：
-        //删除数据库。 任何现有数据丢失。
+        //删除数据库（需手动删除数据库）。 任何现有数据丢失。
         //更改数据模型。 例如，添加 EmailAddress 字段。
         //运行应用。
         //EnsureCreated 创建具有新架构的数据库。
