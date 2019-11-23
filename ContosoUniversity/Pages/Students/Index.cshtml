@@ -2,47 +2,91 @@
 @model ContosoUniversity.Pages.Students.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Students";
 }
 
-<h1>Index</h1>
+<h2>Students</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+@* 上述代码使用 <form> 标记帮助器来添加搜索文本框和按钮。
+    默认情况下，<form> 标记帮助器利用 POST 提交表单数据。
+    借助 POST，会在 HTTP 消息正文中而不是在 URL 中传递参数。
+    使用 HTTP GET 时，表单数据作为查询字符串在 URL 中进行传递。
+    通过查询字符串传递数据时，用户可对 URL 添加书签。 W3C 指南建议应在操作不引起更新的情况下使用 GET。
+
+    如果页面具有书签，该书签将包含该页面的 URL 和 SearchString 查询字符串。 
+    form 标记中的 method="get" 会导致生成查询字符串。*@
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            @* todo:这里使用submit为啥是调用OnGetAsync? 因为上面form表单中路径是"./Index" method="get"*@
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].LastName)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Students[0].LastName)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].FirstMidName)
+                @Html.DisplayNameFor(model => model.Students[0].FirstMidName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].EnrollmentDate)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Students[0].EnrollmentDate)
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Student) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstMidName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnrollmentDate)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstMidName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@{ 
+    var prevDisabled = !Model.Students.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Students.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Students.PageIndex-1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">Previous</a>
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Students.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

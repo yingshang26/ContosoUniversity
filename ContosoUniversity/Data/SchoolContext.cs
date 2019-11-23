@@ -17,7 +17,7 @@ namespace ContosoUniversity.Models
         //在 EF Core 术语中：
         //实体集通常对应数据库表。
         //实体对应表中的行。
-        public DbSet<ContosoUniversity.Models.Student> Students { get; set; }
+        public DbSet<ContosoUniversity.Models.Student> Students { get; set; }//todo:这些数据哪来的？
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Course> Courses { get; set; }
 
