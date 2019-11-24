@@ -32,7 +32,7 @@ namespace ContosoUniversity.Models
 
         //课程将分配到一个系
         //Course 实体具有 Department 导航属性
-        public Department Department { get; set; }
+        public Department Department { get; set; }//todo:这些对象实体在数据库中是如何保存的？数据库中有Department的一张数据表
 
         //参与一门课程的学生数量不定，因此 Enrollments 导航属性是一个集合
         public ICollection<Enrollment> Enrollments { get; set; }//导航属性

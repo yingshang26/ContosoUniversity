@@ -89,7 +89,7 @@ namespace ContosoUniversity.Data
             var courses = new Course[]
             {
                 new Course {CourseID = 1050, Title = "Chemistry",      Credits = 3,
-                    DepartmentID = departments.Single( s => s.Name == "Engineering").DepartmentID
+                    DepartmentID = departments.Single( s => s.Name == "Engineering").DepartmentID//todo:了解这种构建实体导航属性的方法
                 },
                 new Course {CourseID = 4022, Title = "Microeconomics", Credits = 3,
                     DepartmentID = departments.Single( s => s.Name == "Economics").DepartmentID
